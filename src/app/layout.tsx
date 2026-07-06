@@ -1,8 +1,9 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import "lenis/dist/lenis.css"
 import "./globals.css"
-import LenisProvider from "@/components/lenis-provider"
+import Container from "@/components/container"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 
 // DEV-ONLY cache bypass — REMOVE before production. See memory/CLAUDE.md.
 export const dynamic = "force-dynamic"
@@ -25,12 +26,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <LenisProvider>{children}</LenisProvider>
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col overflow-x-clip">
+        <Navbar />
+        {children}
+        <Footer />
       </body>
     </html>
   )

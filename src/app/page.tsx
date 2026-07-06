@@ -1,9 +1,19 @@
+import Hero from "@/components/sections/hero"
+import Work from "@/components/sections/work"
+import Services from "@/components/sections/services"
+import WhyMe from "@/components/sections/why-me"
+import Faq from "@/components/sections/faq"
+import Contact from "@/components/sections/contact"
+
 export default function Home() {
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-background">
-      <h1 className="text-[64px] font-semibold tracking-[-0.05em] text-primary">
-        Hello World
-      </h1>
-    </div>
+    <main className="flex flex-col">
+      <Hero />
+      <Work />
+      <Services />
+      <WhyMe />
+      <Faq />
+      <Contact />
+    </main>
   )
 }

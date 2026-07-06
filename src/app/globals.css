@@ -14,6 +14,10 @@
   --color-foreground: var(--foreground);
   /* Primary / highlight color. Alt option on standby: #1B00C5 (strong indigo). */
   --color-primary: #0656ba;
+  /* Faint hairline for the frame rails + section dividers. Transparent
+     black (~10%) so it stays subtle on both light sections and the dark
+     footer, instead of an opaque gray that turns bright on black. */
+  --color-line: #0000001a;
   --font-sans: var(--font-inter);
 }
 
