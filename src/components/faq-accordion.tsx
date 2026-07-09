@@ -13,7 +13,7 @@ export default function FaqAccordion({ items }: { items: Faq[] }) {
   return (
     <Accordion.Root
       defaultValue={[0]}
-      className="flex flex-col gap-[7px] rounded-[20px] bg-[#e5e5e5] p-[7px]"
+      className="flex flex-col gap-1.75 rounded-[20px] bg-[#e5e5e5] p-1.75"
     >
       {items.map((item, i) => (
         <Accordion.Item
@@ -28,16 +28,18 @@ export default function FaqAccordion({ items }: { items: Faq[] }) {
                 {item.q}
               </Text>
               <span className="relative flex size-8 shrink-0 items-center justify-center rounded-full bg-black/5">
-                <Plus className="size-4 transition-all duration-300 group-data-[panel-open]/trigger:rotate-90 group-data-[panel-open]/trigger:opacity-0" />
-                <Minus className="absolute size-4 -rotate-90 opacity-0 transition-all duration-300 group-data-[panel-open]/trigger:rotate-0 group-data-[panel-open]/trigger:opacity-100" />
+                <Plus className="size-4 transition-all duration-300 group-data-panel-open/trigger:rotate-90 group-data-panel-open/trigger:opacity-0" />
+                <Minus className="absolute size-4 -rotate-90 opacity-0 transition-all duration-300 group-data-panel-open/trigger:rotate-0 group-data-panel-open/trigger:opacity-100" />
               </span>
             </Accordion.Trigger>
           </Accordion.Header>
 
-          <Accordion.Panel className="h-[var(--accordion-panel-height)] overflow-hidden transition-[height] duration-300 ease-out data-[ending-style]:h-0 data-[starting-style]:h-0">
-            <Text muted className="pt-4">
-              {item.a}
-            </Text>
+          <Accordion.Panel className="group/panel h-(--accordion-panel-height) overflow-hidden transition-[height] duration-300 ease-out data-ending-style:h-0 data-starting-style:h-0">
+            <div className="overflow-hidden">
+              <div className="pt-4 transition-[translate,opacity] duration-300 ease-out group-data-starting-style/panel:translate-y-2 group-data-starting-style/panel:opacity-0 group-data-ending-style/panel:translate-y-2 group-data-ending-style/panel:opacity-0 motion-reduce:transition-none">
+                <Text muted>{item.a}</Text>
+              </div>
+            </div>
           </Accordion.Panel>
         </Accordion.Item>
       ))}
