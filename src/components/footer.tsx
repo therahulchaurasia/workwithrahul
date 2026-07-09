@@ -20,8 +20,7 @@ export default function Footer() {
 
 const groups = [
   {
-    heading: "Designed & developed by",
-    shortHeading: "Built by",
+    heading: "Developed by",
     items: ["Yours Truly"],
   },
   { heading: "Get in touch", items: ["Twitter", "Email"] },

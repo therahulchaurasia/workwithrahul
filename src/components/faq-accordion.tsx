@@ -1,7 +1,7 @@
 "use client"
 
 import { Accordion } from "@base-ui-components/react/accordion"
-import { Minus, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
 import { Text } from "@/components/text"
 
 type Faq = { q: string; a: string }
@@ -19,7 +19,7 @@ export default function FaqAccordion({ items }: { items: Faq[] }) {
         <Accordion.Item
           key={item.q}
           value={i}
-          className="rounded-2xl bg-background px-6 py-5"
+          className="relative rounded-2xl bg-background px-6 py-5 outline-1 outline-[#e2e2e2] [outline-offset:-3px]"
           style={{ boxShadow: FRONT_SHADOW }}
         >
           <Accordion.Header className="m-0">
@@ -28,8 +28,7 @@ export default function FaqAccordion({ items }: { items: Faq[] }) {
                 {item.q}
               </Text>
               <span className="relative flex size-8 shrink-0 items-center justify-center rounded-full bg-black/5">
-                <Plus className="size-4 transition-all duration-300 group-data-panel-open/trigger:rotate-90 group-data-panel-open/trigger:opacity-0" />
-                <Minus className="absolute size-4 -rotate-90 opacity-0 transition-all duration-300 group-data-panel-open/trigger:rotate-0 group-data-panel-open/trigger:opacity-100" />
+                <Plus className="size-4 [&_path]:origin-center [&_path]:[transform-box:fill-box] [&_path]:transition-transform [&_path]:duration-300 group-data-panel-open/trigger:[&_path:last-child]:scale-y-0" />
               </span>
             </Accordion.Trigger>
           </Accordion.Header>

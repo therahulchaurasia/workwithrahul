@@ -1,10 +1,19 @@
+import Image from "next/image"
+
 type Project = {
   name: string
   ratio: string
   background: string
+  image?: string
 }
 
 const columnA: Project[] = [
+  {
+    name: "With Sam",
+    ratio: "5 / 4",
+    background: "#eaeaea",
+    image: "/showcase/mockup-5.png",
+  },
   {
     name: "Random1",
     ratio: "4 / 5",
@@ -81,11 +90,15 @@ function Column({
   )
 }
 
-function Card({ ratio, background }: Project) {
+function Card({ name, ratio, background, image }: Project) {
   return (
     <div
-      className="overflow-hidden rounded-2xl"
+      className="relative overflow-hidden rounded-2xl"
       style={{ aspectRatio: ratio, background }}
-    />
+    >
+      {image && (
+        <Image src={image} alt={name} fill sizes="50vw" className="object-cover" />
+      )}
+    </div>
   )
 }
