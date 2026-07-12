@@ -15,8 +15,11 @@ export default function Home() {
       <WhyMe />
       <Faq />
       <Contact />
-      {/* TODO: demo placement — move/remove once final position is decided */}
-      <ProgressiveBlur tint={false} className="fixed inset-x-0 bottom-0 z-50 h-[10svh]" />
+
+      <ProgressiveBlur
+        tint={false}
+        className="sticky bottom-0 z-50 -mt-[10svh] h-[10svh]"
+      />
     </main>
   )
 }

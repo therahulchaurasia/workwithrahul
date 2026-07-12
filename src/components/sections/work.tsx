@@ -8,9 +8,9 @@ import { ArrowUpRight } from "lucide-react"
 type Project = { title: string; image?: string }
 
 const projects: Project[] = [
-  { title: "With Sam", image: "/showcase/mockup-5.png" },
-  { title: "Leafe Studio" },
-  { title: "Northwind Labs" },
+  { title: "With Sam", image: "/showcase/withsam.jpeg" },
+  { title: "Asahi", image: "/showcase/asahi.jpeg" },
+  { title: "Asahi v2", image: "/showcase/asahiv2.jpeg" },
   { title: "Atlas Ventures" },
   { title: "Cadence Audio" },
   { title: "Vanta Studio" },
@@ -22,8 +22,9 @@ export default function Work() {
       <Section id="work" className="py-15 md:py-20">
         <div className="flex flex-col gap-3.75 md:gap-6.25 xl:gap-12.5">
           <SectionHeading
+            eyebrow="Work"
             title="Selected work"
-            subtext="See how I've transformed brands and delivered real, measurable results."
+            subtext="Real projects, built end to end, from design through deployment."
           />
           <div className="group/work grid grid-cols-1 gap-2.5 md:grid-cols-2">
             {/* <div
@@ -45,7 +46,11 @@ export default function Work() {
                     className="object-cover"
                   />
                 )}
-                <Text as="h3" variant="subtitle" className="absolute bottom-5 left-5">
+                <Text
+                  as="h3"
+                  variant="subtitle"
+                  className="absolute bottom-5 left-5"
+                >
                   {title}
                 </Text>
                 <span className="absolute bottom-5 right-5 flex size-11 translate-y-[150%] items-center justify-center rounded-full bg-background opacity-0 transition-[translate,opacity] duration-300 delay-100 ease-[cubic-bezier(0.513,0,0.989,0.146)] group-hover/card:translate-y-0 group-hover/card:opacity-100 group-hover/card:delay-0 group-hover/card:duration-[700ms] group-hover/card:ease-[linear(0,0.029_1.3%,0.118_2.8%,0.631_8.6%,0.843_11.6%,0.985_14.8%,1.028_16.5%,1.055_18.3%,1.066_20.2%,1.066_22.3%,1.012_32.4%,0.996_39.4%,1)]">

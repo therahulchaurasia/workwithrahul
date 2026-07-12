@@ -3,6 +3,7 @@ import Section from "@/components/section"
 import Container from "@/components/container"
 import ContactForm from "@/components/contact-form"
 import { Text } from "@/components/text"
+import Eyebrow from "@/components/eyebrow"
 
 const FRONT_SHADOW =
   "rgba(0, 0, 0, 0.08) 0px 0.602187px 0.602187px -0.916667px, rgba(0, 0, 0, 0.08) 0px 2.28853px 2.28853px -1.83333px, rgba(0, 0, 0, 0.07) 0px 10px 10px -2.75px"
@@ -33,13 +34,12 @@ export default function Contact() {
           {/* Left — heading + contact channels */}
           <div className="flex flex-col justify-between gap-10">
             <div className="flex flex-col gap-4">
-              <span className="w-fit rounded-full bg-foreground px-3 py-1 text-xs font-semibold tracking-[0.1em] text-background">
-                // CONTACT //
-              </span>
-              <Text variant="title">Let&apos;s talk.</Text>
+              <div className="flex flex-col gap-[5px]">
+                <Eyebrow>Contact</Eyebrow>
+                <Text variant="title">Ready to start?</Text>
+              </div>
               <Text muted className="max-w-sm">
-                Got questions or ready to start your design project? Let&apos;s
-                bring your ideas to life.
+                Let&apos;s build something people will remember.
               </Text>
             </div>
 
@@ -57,12 +57,15 @@ export default function Contact() {
                     style={{ boxShadow: FRONT_SHADOW }}
                   >
                     <div className="flex items-start justify-between">
-                      <Icon className="size-6 text-foreground" strokeWidth={1.75} />
+                      <Icon
+                        className="size-6 text-foreground"
+                        strokeWidth={1.75}
+                      />
                       <span className="flex items-center gap-1">
                         {Array.from({ length: 2 }).map((_, d) => (
                           <span
                             key={d}
-                            className={`size-1.5 rounded-full ${
+                            className={`size-2.5 rounded-full ${
                               d <= i ? "bg-primary" : "bg-black/12"
                             }`}
                           />
@@ -70,10 +73,19 @@ export default function Contact() {
                       </span>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <Text as="span" variant="label" muted className="uppercase tracking-[0.08em]">
+                      <Text
+                        as="span"
+                        variant="label"
+                        muted
+                        className="uppercase tracking-[0.08em]"
+                      >
                         {label}
                       </Text>
-                      <Text as="span" variant="subtitle-sm" className="break-all">
+                      <Text
+                        as="span"
+                        variant="subtitle-sm"
+                        className="break-all"
+                      >
                         {value}
                       </Text>
                     </div>

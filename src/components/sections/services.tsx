@@ -11,16 +11,16 @@ type Service = { title: string; desc: string }
 
 const services: Service[] = [
   {
-    title: "Brand Identity",
-    desc: "Elevate your visual presence with standout branding.",
+    title: "Landing Pages",
+    desc: "Pages with one job: turn visitors into customers. Designed around your offer, built to load fast and convert.",
   },
   {
-    title: "Logo Design",
-    desc: "Logos built to be memorable and recognizable across every touchpoint.",
+    title: "CMS Websites",
+    desc: "A site you can update yourself, no developer on speed dial. Clean design, easy editing, built to grow with you.",
   },
   {
-    title: "Brand Guidelines",
-    desc: "Your brandbook to keep your brand consistent across platforms.",
+    title: "Custom Builds",
+    desc: "When a template can't do it, I build it from scratch. Custom design, custom code, exactly what your business needs.",
   },
 ]
 
@@ -30,8 +30,9 @@ export default function Services() {
       <Section id="services" className="py-15 md:py-20">
         <div className="flex flex-col gap-8 md:gap-12">
           <SectionHeading
+            eyebrow="Services"
             title="Services"
-            subtext="End-to-end design and development, tailored to what your business needs."
+            subtext="Three things, done properly. Narrow on purpose, so the quality never dips."
           />
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {services.map(({ title, desc }) => (
@@ -55,9 +56,9 @@ export default function Services() {
                   </Text>
                   <button
                     type="button"
-                    className="mt-8 w-full cursor-pointer rounded-full bg-gradient-to-b from-[#2f8bff] to-primary py-3.5 text-center font-semibold text-white shadow-[0_10px_24px_-8px_rgba(6,86,186,0.7)] transition-transform duration-200 hover:scale-[1.02] active:scale-[0.99]"
+                    className="mt-8 w-full cursor-pointer rounded-full bg-gradient-to-b from-[#4d4dda] to-primary py-3.5 text-center font-semibold text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_10px_24px_-8px_rgba(51,51,204,0.6)] transition-transform duration-200 hover:scale-[1.02] active:scale-[0.99]"
                   >
-                    Get Started
+                    Start a project
                   </button>
                 </div>
               </div>

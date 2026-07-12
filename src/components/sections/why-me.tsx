@@ -1,10 +1,10 @@
 import {
-  Activity,
-  BarChart3,
-  DollarSign,
-  Gem,
-  MousePointer2,
-  RefreshCw,
+  Brain,
+  Gauge,
+  LifeBuoy,
+  PhoneCall,
+  Target,
+  Zap,
   type LucideIcon,
 } from "lucide-react"
 import Section from "@/components/section"
@@ -19,34 +19,34 @@ type Reason = { icon: LucideIcon; title: string; desc: string }
 
 const reasons: Reason[] = [
   {
-    icon: DollarSign,
-    title: "Easy Pricing",
-    desc: "Simple pricing structure that gives you unlimited design.",
+    icon: Brain,
+    title: "Design + code, one brain",
+    desc: "No handoff between designer and developer. What gets designed is exactly what gets built.",
   },
   {
-    icon: Activity,
-    title: "Fast Turnarounds",
-    desc: "Quick and reliable results to keep your business moving forward.",
+    icon: PhoneCall,
+    title: "Direct line",
+    desc: "You talk to the person doing the work. No account managers, no relay race.",
   },
   {
-    icon: RefreshCw,
-    title: "Unlimited Requests",
-    desc: "I fulfill and satisfy all your design needs while focusing on maximum conversion.",
+    icon: Zap,
+    title: "Fast turnarounds",
+    desc: "Small and focused means no agency queue. Your project moves every single day.",
   },
   {
-    icon: MousePointer2,
-    title: "Design Portal",
-    desc: "Manage tasks, revisions, and updates inside a clean, organized dashboard.",
+    icon: Gauge,
+    title: "Built for speed",
+    desc: "Fast-loading, mobile-first pages. Slow sites lose sales. Yours won't.",
   },
   {
-    icon: Gem,
-    title: "Top-Tier Quality",
-    desc: "Built with care — I treat your brand with the same attention I give my own.",
+    icon: Target,
+    title: "Conversion first",
+    desc: "Every layout decision serves one question: does this help visitors say yes?",
   },
   {
-    icon: BarChart3,
-    title: "Problem Solving",
-    desc: "I solve your brand challenges with innovative solutions.",
+    icon: LifeBuoy,
+    title: "There after launch",
+    desc: "Launch isn't goodbye. Fixes, tweaks, and support when you need them.",
   },
 ]
 
@@ -56,8 +56,9 @@ export default function WhyMe() {
       <Section id="why-me" className="py-15 md:py-20">
         <div className="flex flex-col gap-8 md:gap-12">
           <SectionHeading
+            eyebrow="Benefits"
             title="Why work with me"
-            subtext="Get unlimited design work for a simple monthly price. No hidden costs. Pause or cancel whenever you want."
+            subtext="You get a designer and a developer in one person. Nothing lost in translation, nothing marked up twice."
           />
           <div className="grid grid-cols-1 gap-1.75 rounded-[20px] bg-[#e5e5e5] p-1.75 md:grid-cols-3">
             {reasons.map(({ icon: Icon, title, desc }, i) => (
@@ -72,7 +73,7 @@ export default function WhyMe() {
                     {Array.from({ length: 6 }).map((_, d) => (
                       <span
                         key={d}
-                        className={`size-1.5 rounded-full ${
+                        className={`size-2.5 rounded-full ${
                           d <= i ? "bg-primary" : "bg-black/12"
                         }`}
                       />
