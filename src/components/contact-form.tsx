@@ -13,9 +13,6 @@ const LABEL = "text-sm font-semibold text-white"
 export default function ContactForm() {
   const [status, setStatus] = useState<SendStatus>("idle")
 
-  // Simulated send — replace with the real Resend call once the API route
-  // exists. A message containing "fail" rejects, so the error path is
-  // testable straight from the browser.
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (status === "sending" || status === "success") return
@@ -34,23 +31,20 @@ export default function ContactForm() {
       return
     }
 
-    const message = new FormData(form).get("message")?.toString() ?? ""
+    const data = Object.fromEntries(new FormData(form))
     setStatus("sending")
     try {
       // Send + minimum flight time: even an instant API response keeps the
       // plane flying 2s so the choreography can breathe.
-      await Promise.all([
-        new Promise((resolve, reject) =>
-          setTimeout(
-            () =>
-              message.toLowerCase().includes("fail")
-                ? reject(new Error("simulated failure"))
-                : resolve(null),
-            600,
-          ),
-        ),
+      const [res] = await Promise.all([
+        fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }),
         new Promise((resolve) => setTimeout(resolve, 2000)),
       ])
+      if (!res.ok) throw new Error(`send failed: ${res.status}`)
       setStatus("success")
     } catch {
       setStatus("error")
