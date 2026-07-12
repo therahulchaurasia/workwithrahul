@@ -20,6 +20,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid submission" }, { status: 400 })
   }
 
+  if (!process.env.RESEND_API_KEY) {
+    console.error("resend: RESEND_API_KEY is not set in this environment")
+    return NextResponse.json({ error: "Send failed" }, { status: 502 })
+  }
+
   // Constructed per-request so the module can load without the secret —
   // `next build` evaluates route modules, and build environments have no key.
   const resend = new Resend(process.env.RESEND_API_KEY)
