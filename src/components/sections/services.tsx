@@ -1,13 +1,14 @@
-import { Folder } from "lucide-react"
-import Section from "@/components/section"
-import Container from "@/components/container"
-import SectionHeading from "@/components/section-heading"
-import { Text } from "@/components/text"
+import { Folder } from "lucide-react";
+import Section from "@/components/section";
+import Container from "@/components/container";
+import SectionHeading from "@/components/section-heading";
+import Reveal from "@/components/reveal";
+import { Text } from "@/components/text";
 
 const FRONT_SHADOW =
-  "rgba(0, 0, 0, 0.08) 0px 0.602187px 0.602187px -0.916667px, rgba(0, 0, 0, 0.08) 0px 2.28853px 2.28853px -1.83333px, rgba(0, 0, 0, 0.07) 0px 10px 10px -2.75px"
+  "rgba(0, 0, 0, 0.08) 0px 0.602187px 0.602187px -0.916667px, rgba(0, 0, 0, 0.08) 0px 2.28853px 2.28853px -1.83333px, rgba(0, 0, 0, 0.07) 0px 10px 10px -2.75px";
 
-type Service = { title: string; desc: string }
+type Service = { title: string; desc: string };
 
 const services: Service[] = [
   {
@@ -22,22 +23,25 @@ const services: Service[] = [
     title: "Custom Builds",
     desc: "When a template can't do it, I build it from scratch. Custom design, custom code, exactly what your business needs.",
   },
-]
+];
 
 export default function Services() {
   return (
     <Container>
       <Section id="services" className="py-15 md:py-20">
         <div className="flex flex-col gap-8 md:gap-12">
-          <SectionHeading
-            eyebrow="Services"
-            title="Services"
-            subtext="Three things, done properly. Narrow on purpose, so the quality never dips."
-          />
+          <Reveal>
+            <SectionHeading
+              eyebrow="Services"
+              title="Services"
+              subtext="Three things, done properly. Narrow on purpose, so the quality never dips."
+            />
+          </Reveal>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {services.map(({ title, desc }) => (
-              <div
+            {services.map(({ title, desc }, i) => (
+              <Reveal
                 key={title}
+                delay={i * 0.08}
                 className="rounded-[20px] bg-[#e5e5e5] p-1.75"
               >
                 <div
@@ -61,11 +65,11 @@ export default function Services() {
                     Start a project
                   </button>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </Section>
     </Container>
-  )
+  );
 }

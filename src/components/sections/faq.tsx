@@ -1,15 +1,16 @@
-import Section from "@/components/section"
-import Container from "@/components/container"
-import FaqAccordion from "@/components/faq-accordion"
-import { Text } from "@/components/text"
-import Eyebrow from "@/components/eyebrow"
+import Section from "@/components/section";
+import Container from "@/components/container";
+import FaqAccordion from "@/components/faq-accordion";
+import Reveal from "@/components/reveal";
+import { Text } from "@/components/text";
+import Eyebrow from "@/components/eyebrow";
 
 export default function Faq() {
   return (
     <Container>
       <Section id="faq" className="py-15 md:py-20">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="flex flex-col gap-3">
+          <Reveal className="flex flex-col gap-3">
             <div className="flex flex-col gap-[5px]">
               <Eyebrow>FAQ</Eyebrow>
               <Text variant="title">Questions.</Text>
@@ -17,13 +18,15 @@ export default function Faq() {
             <Text muted className="max-w-xs">
               The things clients usually ask before starting.
             </Text>
-          </div>
+          </Reveal>
 
-          <FaqAccordion items={faqs} />
+          <Reveal delay={0.1}>
+            <FaqAccordion items={faqs} />
+          </Reveal>
         </div>
       </Section>
     </Container>
-  )
+  );
 }
 
 const faqs = [
@@ -51,4 +54,4 @@ const faqs = [
     q: "Do you do both the design and the development?",
     a: "Yes, that's the point. One person takes it from blank Figma file to live site, so nothing gets lost between design and code.",
   },
-]
+];

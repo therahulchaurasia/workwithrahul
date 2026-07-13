@@ -1,9 +1,11 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { ArrowUpRight, Plus } from "lucide-react"
-import Container from "@/components/container"
-import ScrollLink from "@/components/scroll-link"
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Plus } from "lucide-react";
+import { motion } from "motion/react";
+import Container from "@/components/container";
+import ScrollLink from "@/components/scroll-link";
+import { EASE, LOGO_DELAY } from "@/lib/motion";
 
 const LINKS = [
   { href: "#hero", label: "Home" },
@@ -12,46 +14,46 @@ const LINKS = [
   { href: "#why-me", label: "Why me" },
   { href: "#faq", label: "FAQs" },
   { href: "#contact", label: "Contact" },
-]
+];
 
 export default function Navbar() {
-  const [hidden, setHidden] = useState(false)
-  const [open, setOpen] = useState(false)
-  const lastY = useRef(0)
-  const menuRef = useRef<HTMLDivElement>(null)
+  const [hidden, setHidden] = useState(false);
+  const [open, setOpen] = useState(false);
+  const lastY = useRef(0);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY
+      const y = window.scrollY;
       if (y < 80) {
-        setHidden(false)
+        setHidden(false);
       } else if (Math.abs(y - lastY.current) > 6) {
-        const goingDown = y > lastY.current
-        setHidden(goingDown)
-        if (goingDown) setOpen(false)
+        const goingDown = y > lastY.current;
+        setHidden(goingDown);
+        if (goingDown) setOpen(false);
       }
-      lastY.current = y
-    }
+      lastY.current = y;
+    };
 
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
-    if (!open) return
+    if (!open) return;
     const onPointerDown = (e: PointerEvent) => {
-      if (!menuRef.current?.contains(e.target as Node)) setOpen(false)
-    }
+      if (!menuRef.current?.contains(e.target as Node)) setOpen(false);
+    };
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false)
-    }
-    document.addEventListener("pointerdown", onPointerDown)
-    document.addEventListener("keydown", onKeyDown)
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
     return () => {
-      document.removeEventListener("pointerdown", onPointerDown)
-      document.removeEventListener("keydown", onKeyDown)
-    }
-  }, [open])
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
 
   return (
     <header
@@ -61,14 +63,28 @@ export default function Navbar() {
     >
       <Container divider={false}>
         <nav className="flex h-14 w-full items-center justify-between">
-          <ScrollLink
-            href="#hero"
-            className="text-2xl leading-none font-medium tracking-[-0.03em]"
+          {/* Logo skips the bar's slide-down and lands last in the load
+              choreography, rising from below after the hero carousel. */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, ease: EASE, delay: LOGO_DELAY }}
           >
-            Rah<span className="italic">ul</span>®
-          </ScrollLink>
+            <ScrollLink
+              href="#hero"
+              className="text-2xl leading-none font-medium tracking-[-0.03em]"
+            >
+              Rah<span className="italic">ul</span>®
+            </ScrollLink>
+          </motion.div>
 
-          <div ref={menuRef} className="relative">
+          <motion.div
+            ref={menuRef}
+            initial={{ y: -80 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.55, ease: EASE }}
+            className="relative"
+          >
             <button
               type="button"
               aria-expanded={open}
@@ -106,9 +122,9 @@ export default function Navbar() {
                 ))}
               </div>
             )}
-          </div>
+          </motion.div>
         </nav>
       </Container>
     </header>
-  )
+  );
 }
