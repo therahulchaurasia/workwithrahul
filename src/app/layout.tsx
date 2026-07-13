@@ -44,6 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE.title,
     description: SITE.description,
+    creator: SITE.twitterHandle,
   },
   robots: { index: true, follow: true },
 }
@@ -59,7 +60,7 @@ const personJsonLd = {
   url: SITE.url,
   email: `mailto:${SITE.email}`,
   jobTitle: "Web Designer & Developer",
-  sameAs: [SITE.instagram],
+  sameAs: [SITE.twitter],
 }
 
 export default function RootLayout({

@@ -6,6 +6,7 @@ export const SITE = {
   title: "Work With Rahul",
   description:
     "Websites designed and built to win you customers. No templates, no AI sameness. One person who designs it, codes it, and makes it convert.",
-  email: "therahulchaurasia@gmail.com",
-  instagram: "https://instagram.com/rahul.designs",
+  email: "hi@workwithrahul.com",
+  twitterHandle: "@rahul_twtss",
+  twitter: "https://x.com/rahul_twtss",
 } as const

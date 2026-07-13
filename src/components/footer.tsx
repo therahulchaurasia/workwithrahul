@@ -1,5 +1,6 @@
 import Container from "./container"
 import { Text } from "@/components/text"
+import { SITE } from "@/lib/site"
 
 export default function Footer() {
   return (
@@ -18,12 +19,24 @@ export default function Footer() {
   )
 }
 
-const groups = [
+type FooterItem = { label: string; href?: string }
+
+const groups: {
+  heading: string
+  shortHeading?: string
+  items: FooterItem[]
+}[] = [
   {
     heading: "Built by",
-    items: ["Rahul"],
+    items: [{ label: "Rahul" }],
   },
-  { heading: "Get in touch", items: ["Email", "Twitter"] },
+  {
+    heading: "Get in touch",
+    items: [
+      { label: "Email", href: `mailto:${SITE.email}` },
+      { label: "Twitter", href: SITE.twitter },
+    ],
+  },
 ]
 
 function FooterGroup({
@@ -33,7 +46,7 @@ function FooterGroup({
 }: {
   heading: string
   shortHeading?: string
-  items: string[]
+  items: FooterItem[]
 }) {
   return (
     <div className="flex items-center justify-between py-2 lg:w-1/2 lg:flex-col lg:items-start lg:justify-between lg:gap-4 lg:py-0">
@@ -48,11 +61,25 @@ function FooterGroup({
         )}
       </Text>
       <div className="flex gap-5 text-white lg:gap-4 lg:text-white/70">
-        {items.map((item) => (
-          <Text as="span" variant="body" key={item} className="font-normal!">
-            {item}
-          </Text>
-        ))}
+        {items.map(({ label, href }) =>
+          href ? (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              rel={href.startsWith("http") ? "noreferrer" : undefined}
+              className="transition-colors duration-200 hover:text-white"
+            >
+              <Text as="span" variant="body" className="font-normal!">
+                {label}
+              </Text>
+            </a>
+          ) : (
+            <Text as="span" variant="body" key={label} className="font-normal!">
+              {label}
+            </Text>
+          )
+        )}
       </div>
     </div>
   )
