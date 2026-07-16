@@ -1,12 +1,8 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import {
-  AnimatePresence,
-  MotionConfig,
-  motion,
-  type Variants,
-} from "motion/react"
+import { AnimatePresence, motion, type Variants } from "motion/react"
+import usePrefersReducedMotion from "@/hooks/use-prefers-reduced-motion"
 
 export type SendStatus = "idle" | "sending" | "success" | "error"
 
@@ -84,6 +80,10 @@ export default function SendButton({ status }: { status: SendStatus }) {
   const failed = status === "error"
   const flying = status === "sending"
   const buttonRef = useRef<HTMLButtonElement>(null)
+  // Streaks are pure decoration, and under reduced motion the global
+  // MotionConfig strips their x/y travel but keeps the opacity keyframes —
+  // stationary blinking dashes. Skip rendering them instead.
+  const reducedMotion = usePrefersReducedMotion()
 
   // Takeoff flare on success. The exiting plane's React props are frozen by
   // AnimatePresence, so the flare can't render conditionally — instead the
@@ -98,54 +98,59 @@ export default function SendButton({ status }: { status: SendStatus }) {
   }, [status])
 
   return (
-    <MotionConfig reducedMotion="user">
-      <button
-        ref={buttonRef}
-        type="submit"
-        data-status={status}
-        disabled={status === "sending" || status === "success"}
-        className={`relative mt-1 w-full cursor-pointer overflow-hidden rounded-full py-4 font-semibold text-white transition-shadow duration-500 disabled:cursor-default ${
-          failed
-            ? "shadow-[0_10px_24px_-8px_rgba(217,48,54,0.7)]"
-            : "shadow-[0_10px_24px_-8px_rgba(51,51,204,0.6)]"
-        }`}
-      >
-        <Gradient show={!failed} className="from-[#4d4dda] to-primary" />
-        <Gradient show={failed} className="from-[#ff6369] to-[#d93036]" />
+    <button
+      ref={buttonRef}
+      type="submit"
+      data-status={status}
+      disabled={status === "sending" || status === "success"}
+      // Shadow cross-fades slowly (error state), the press scale snaps in
+      // 160ms — hence the split transition. :active never fires while
+      // disabled, so the sending/success states stay still.
+      className={`relative mt-1 w-full cursor-pointer overflow-hidden rounded-full py-4 font-semibold text-white [transition:box-shadow_500ms,scale_160ms_cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98] disabled:cursor-default ${
+        failed
+          ? "shadow-[0_10px_24px_-8px_rgba(217,48,54,0.7)]"
+          : "shadow-[0_10px_24px_-8px_rgba(51,51,204,0.6)]"
+      }`}
+    >
+      <Gradient show={!failed} className="from-[#4d4dda] to-primary" />
+      <Gradient show={failed} className="from-[#ff6369] to-[#d93036]" />
 
-        <AnimatePresence>{flying && <Slipstream />}</AnimatePresence>
+      <AnimatePresence>
+        {flying && !reducedMotion && <Slipstream />}
+      </AnimatePresence>
 
-        <span className="relative flex h-6 items-center justify-center gap-2.5">
-          <AnimatePresence mode="popLayout" custom={status} initial={false}>
-            {status === "idle" && (
-              <motion.span
-                key="label"
-                exit={{ scale: 0, opacity: 0 }}
-                transition={POP}
-              >
-                Send it
-              </motion.span>
-            )}
-            {(status === "idle" || flying) && (
-              <motion.span
-                key="plane"
-                layout
-                custom={status}
-                variants={planeVariants}
-                initial="enter"
-                animate={status}
-                exit="exit"
-                transition={POP}
-              >
-                <PaperPlane flying={flying} />
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </span>
+      <span className="relative flex h-6 items-center justify-center gap-2.5">
+        <AnimatePresence mode="popLayout" custom={status} initial={false}>
+          {status === "idle" && (
+            <motion.span
+              key="label"
+              exit={{ scale: 0, opacity: 0 }}
+              transition={POP}
+            >
+              Send it
+            </motion.span>
+          )}
+          {(status === "idle" || flying) && (
+            <motion.span
+              key="plane"
+              layout
+              custom={status}
+              variants={planeVariants}
+              initial="enter"
+              animate={status}
+              exit="exit"
+              transition={POP}
+            >
+              {/* Under reduced motion the plane stays flat and still: tilt,
+                  wobble and the SMIL flap all key off this prop. */}
+              <PaperPlane flying={flying && !reducedMotion} />
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </span>
 
-        <ResultMessage status={status} />
-      </button>
-    </MotionConfig>
+      <ResultMessage status={status} />
+    </button>
   )
 }
 
@@ -288,15 +293,18 @@ function Flare({ to }: { to: string }) {
   )
 }
 
-// Hover boop stays CSS — it's a transform, safe everywhere.
+// Hover boop stays CSS — it's a transform, safe everywhere. Media query
+// instead of the hook because this channel never touches React.
 const planeCss = `
   @keyframes plane-boop {
     0%, 100% { transform: translateX(0); }
     35% { transform: translateX(5px); }
     70% { transform: translateX(-1px); }
   }
-  button[data-status="idle"]:hover .plane-svg {
-    animation: plane-boop 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+  @media (prefers-reduced-motion: no-preference) {
+    button[data-status="idle"]:hover .plane-svg {
+      animation: plane-boop 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+    }
   }
 `
 
