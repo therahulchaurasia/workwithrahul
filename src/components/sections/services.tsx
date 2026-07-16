@@ -44,8 +44,8 @@ const services: Service[] = [
     desc: "A site you can update yourself, no developer on speed dial. Clean design, easy editing, built to grow with you.",
   },
   {
-    title: "Custom Builds",
-    desc: "When a template can't do it, I build it from scratch. Custom design, custom code, exactly what your business needs.",
+    title: "Web Apps",
+    desc: "For when a website isn't enough. Client logins, dashboards, custom tools, built around the way you work.",
   },
 ];
 
