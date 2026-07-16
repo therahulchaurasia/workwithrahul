@@ -1,6 +1,7 @@
-import Container from "./container"
-import { Text } from "@/components/text"
-import { SITE } from "@/lib/site"
+import Container from "./container";
+import Reveal from "@/components/reveal";
+import { Text } from "@/components/text";
+import { SITE } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -9,22 +10,27 @@ export default function Footer() {
       outerClassName="bg-[#121212] text-white [--line:#ffffff14] [--foreground-muted:#a1a1a1]"
     >
       <footer className="w-full py-2 text-sm lg:py-10">
-        <div className="divide-y divide-dotted divide-line lg:flex lg:divide-y-0">
-          {groups.map((group) => (
-            <FooterGroup key={group.heading} {...group} />
-          ))}
-        </div>
+        {/* Same scroll-reveal as the sections — the footer rides the page
+            flow, so it enters the same way. Dark background stays on the
+            Container, only the content rises. */}
+        <Reveal>
+          <div className="divide-y divide-dotted divide-line lg:flex lg:divide-y-0">
+            {groups.map((group) => (
+              <FooterGroup key={group.heading} {...group} />
+            ))}
+          </div>
+        </Reveal>
       </footer>
     </Container>
-  )
+  );
 }
 
-type FooterItem = { label: string; href?: string }
+type FooterItem = { label: string; href?: string };
 
 const groups: {
-  heading: string
-  shortHeading?: string
-  items: FooterItem[]
+  heading: string;
+  shortHeading?: string;
+  items: FooterItem[];
 }[] = [
   {
     heading: "Built by",
@@ -37,16 +43,16 @@ const groups: {
       { label: "Twitter", href: SITE.twitter },
     ],
   },
-]
+];
 
 function FooterGroup({
   heading,
   shortHeading,
   items,
 }: {
-  heading: string
-  shortHeading?: string
-  items: FooterItem[]
+  heading: string;
+  shortHeading?: string;
+  items: FooterItem[];
 }) {
   return (
     <div className="flex items-center justify-between py-2 lg:w-1/2 lg:flex-col lg:items-start lg:justify-between lg:gap-4 lg:py-0">
@@ -78,9 +84,9 @@ function FooterGroup({
             <Text as="span" variant="body" key={label} className="font-normal!">
               {label}
             </Text>
-          )
+          ),
         )}
       </div>
     </div>
-  )
+  );
 }
