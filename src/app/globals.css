@@ -27,6 +27,26 @@
 }
 
 @theme {
+  /* Hover choreography pair, used together across navbar menu links and work
+     cards: `ease-snap` is the sharp curve for leaving hover (fast fall, cheap
+     exit), `ease-spring` the overshooting settle for entering it. */
+  --ease-snap: cubic-bezier(0.513, 0, 0.989, 0.146);
+  --ease-spring: linear(
+    0,
+    0.029 1.3%,
+    0.118 2.8%,
+    0.631 8.6%,
+    0.843 11.6%,
+    0.985 14.8%,
+    1.028 16.5%,
+    1.055 18.3%,
+    1.066 20.2%,
+    1.066 22.3%,
+    1.012 32.4%,
+    0.996 39.4%,
+    1
+  );
+
   --animate-marquee-up: marquee-up var(--marquee-duration, 40s) linear infinite;
   --animate-marquee-down: marquee-down var(--marquee-duration, 40s) linear
     infinite;

@@ -75,12 +75,17 @@ export default function Work() {
                 className="group/card relative aspect-[5/4] cursor-pointer overflow-hidden rounded-2xl bg-[#eaeaea] hover:z-45"
               >
                 {image && (
+                  /* Image zooms smoothly both ways — no spring, no snap:
+                     photos read as material, and material doesn't bounce.
+                     Slower in (depth), quicker but still soft out.
+                     pointer-fine keeps touch taps from zooming a card they
+                     can't un-hover. */
                   <Image
                     src={image}
                     alt={title}
                     fill
                     sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] pointer-fine:group-hover/card:scale-[1.04] group-hover/card:duration-[900ms] motion-reduce:transition-none"
                   />
                 )}
                 <div className="absolute bottom-5 left-5 flex flex-col items-start">
@@ -92,7 +97,7 @@ export default function Work() {
                        by exactly the chips' height on hover — no hardcoded
                        offsets to break when tags wrap. Touch devices
                        (pointer-coarse) have no hover, so chips stay open. */
-                    <div className="grid w-full grid-rows-[1fr] transition-[grid-template-rows] duration-300 delay-100 ease-[cubic-bezier(0.513,0,0.989,0.146)] pointer-fine:grid-rows-[0fr] pointer-fine:group-hover/card:grid-rows-[1fr] group-hover/card:delay-0 group-hover/card:duration-[700ms] group-hover/card:ease-[linear(0,0.029_1.3%,0.118_2.8%,0.631_8.6%,0.843_11.6%,0.985_14.8%,1.028_16.5%,1.055_18.3%,1.066_20.2%,1.066_22.3%,1.012_32.4%,0.996_39.4%,1)]">
+                    <div className="grid w-full grid-rows-[1fr] transition-[grid-template-rows] duration-300 delay-100 ease-snap pointer-fine:grid-rows-[0fr] pointer-fine:group-hover/card:grid-rows-[1fr] group-hover/card:delay-0 group-hover/card:duration-[700ms] group-hover/card:ease-spring">
                       <div className="min-h-0 overflow-hidden">
                         {/* Static pt wrapper doubles as overshoot headroom:
                             the bounce lifts chips ~1px past rest, and without
@@ -102,7 +107,7 @@ export default function Work() {
                               layer — without it the browser re-rasterizes the
                               chip text when the transition's temporary layer
                               drops, and glyphs visibly nudge ~1px on settle. */}
-                          <div className="flex flex-wrap gap-1.5 will-change-[translate,opacity] transition-[opacity,translate] duration-300 delay-100 ease-[cubic-bezier(0.513,0,0.989,0.146)] pointer-fine:translate-y-2 pointer-fine:opacity-0 pointer-fine:group-hover/card:translate-y-0 pointer-fine:group-hover/card:opacity-100 group-hover/card:delay-0 group-hover/card:duration-[700ms] group-hover/card:ease-[linear(0,0.029_1.3%,0.118_2.8%,0.631_8.6%,0.843_11.6%,0.985_14.8%,1.028_16.5%,1.055_18.3%,1.066_20.2%,1.066_22.3%,1.012_32.4%,0.996_39.4%,1)]">
+                          <div className="flex flex-wrap gap-1.5 will-change-[translate,opacity] transition-[opacity,translate] duration-300 delay-100 ease-snap pointer-fine:translate-y-2 pointer-fine:opacity-0 pointer-fine:group-hover/card:translate-y-0 pointer-fine:group-hover/card:opacity-100 group-hover/card:delay-0 group-hover/card:duration-[700ms] group-hover/card:ease-spring">
                             {/* Same pill recipe as the hero status chip / dark
                               buttons, minus the dot — one chip language. */}
                             {tags.map((tag) => (
@@ -125,7 +130,7 @@ export default function Work() {
                     </div>
                   )}
                 </div>
-                <span className="absolute bottom-5 right-5 flex size-11 translate-y-[150%] items-center justify-center rounded-full bg-background opacity-0 pointer-coarse:translate-y-0 pointer-coarse:opacity-100 transition-[translate,opacity] duration-300 delay-100 ease-[cubic-bezier(0.513,0,0.989,0.146)] group-hover/card:translate-y-0 group-hover/card:opacity-100 group-hover/card:delay-0 group-hover/card:duration-[700ms] group-hover/card:ease-[linear(0,0.029_1.3%,0.118_2.8%,0.631_8.6%,0.843_11.6%,0.985_14.8%,1.028_16.5%,1.055_18.3%,1.066_20.2%,1.066_22.3%,1.012_32.4%,0.996_39.4%,1)]">
+                <span className="absolute bottom-5 right-5 flex size-11 translate-y-[150%] items-center justify-center rounded-full bg-background opacity-0 pointer-coarse:translate-y-0 pointer-coarse:opacity-100 transition-[translate,opacity] duration-300 delay-100 ease-snap group-hover/card:translate-y-0 group-hover/card:opacity-100 group-hover/card:delay-0 group-hover/card:duration-[700ms] group-hover/card:ease-spring">
                   <ArrowUpRight className="size-4 text-primary" />
                 </span>
               </Reveal>

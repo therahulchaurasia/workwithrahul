@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight, CircleDot, Plus } from "lucide-react"
-import { motion } from "motion/react"
+import { AnimatePresence, motion } from "motion/react"
 import Container from "@/components/container"
 import ScrollLink from "@/components/scroll-link"
 import { useAnatomy } from "@/components/anatomy/anatomy-provider"
@@ -93,7 +93,7 @@ export default function Navbar() {
                 aria-pressed={anatomyOn}
                 aria-label="Toggle design anatomy"
                 onClick={toggleAnatomy}
-                className={`flex size-11 cursor-pointer items-center justify-center rounded-full transition-[background-color,translate] duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97] ${
+                className={`flex size-11 cursor-pointer items-center justify-center rounded-full transition-[background-color,translate] duration-200 ease-out hover:-translate-y-0.5 active:-translate-y-0.5 active:scale-[0.97] ${
                   anatomyOn
                     ? "bg-primary text-white"
                     : "bg-foreground text-background"
@@ -115,7 +115,7 @@ export default function Navbar() {
                 aria-expanded={open}
                 aria-haspopup="menu"
                 onClick={() => setOpen((v) => !v)}
-                className="flex cursor-pointer items-center gap-2 rounded-full bg-foreground py-2.5 pr-4 pl-5 text-base font-medium text-background transition-transform duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.97]"
+                className="flex cursor-pointer items-center gap-2 rounded-full bg-foreground py-2.5 pr-4 pl-5 text-base font-medium text-background transition-transform duration-200 ease-out hover:-translate-y-0.5 active:-translate-y-0.5 active:scale-[0.97]"
               >
                 Menu
                 <Plus
@@ -126,27 +126,40 @@ export default function Navbar() {
                 />
               </button>
 
-              {open && (
-                <div
-                  role="menu"
-                  className="absolute top-full right-0 mt-3 w-72 rounded-2xl border-[3px] border-background bg-foreground px-6 py-2 shadow-[0_16px_40px_rgba(18,18,18,0.35)]"
-                >
-                  {LINKS.map((link) => (
-                    <ScrollLink
-                      key={link.href}
-                      role="menuitem"
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      className="group/link flex items-center justify-between border-b border-white/10 py-3.5 text-lg text-white/60 transition-colors duration-150 last:border-b-0 hover:text-white"
-                    >
-                      {link.label}
-                      <span className="flex size-5 items-center justify-center overflow-hidden">
-                        <ArrowUpRight className="size-5 translate-y-[150%] opacity-0 transition-[translate,opacity] duration-300 delay-100 ease-[cubic-bezier(0.513,0,0.989,0.146)] group-hover/link:translate-y-0 group-hover/link:opacity-100 group-hover/link:delay-0 group-hover/link:duration-[700ms] group-hover/link:ease-[linear(0,0.029_1.3%,0.118_2.8%,0.631_8.6%,0.843_11.6%,0.985_14.8%,1.028_16.5%,1.055_18.3%,1.066_20.2%,1.066_22.3%,1.012_32.4%,0.996_39.4%,1)]" />
-                      </span>
-                    </ScrollLink>
-                  ))}
-                </div>
-              )}
+              <AnimatePresence>
+                {open && (
+                  <motion.div
+                    role="menu"
+                    // Grows from the trigger's corner (origin top right), never
+                    // from nothing — scale starts at 0.97. Exit is faster than
+                    // entry: leaving needs less ceremony than arriving.
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{
+                      opacity: 0,
+                      scale: 0.97,
+                      transition: { duration: 0.12, ease: EASE },
+                    }}
+                    transition={{ duration: 0.18, ease: EASE }}
+                    className="absolute top-full right-0 mt-3 w-72 origin-top-right rounded-2xl border-[3px] border-background bg-foreground px-6 py-2 shadow-[0_16px_40px_rgba(18,18,18,0.35)]"
+                  >
+                    {LINKS.map((link) => (
+                      <ScrollLink
+                        key={link.href}
+                        role="menuitem"
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        className="group/link flex items-center justify-between border-b border-white/10 py-3.5 text-lg text-white/60 transition-colors duration-150 last:border-b-0 hover:text-white"
+                      >
+                        {link.label}
+                        <span className="flex size-5 items-center justify-center overflow-hidden">
+                          <ArrowUpRight className="size-5 translate-y-[150%] opacity-0 transition-[translate,opacity] duration-300 delay-100 ease-snap group-hover/link:translate-y-0 group-hover/link:opacity-100 group-hover/link:delay-0 group-hover/link:duration-[700ms] group-hover/link:ease-spring" />
+                        </span>
+                      </ScrollLink>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </div>
         </nav>
