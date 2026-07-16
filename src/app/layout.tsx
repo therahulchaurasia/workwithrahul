@@ -6,6 +6,7 @@ import "lenis/dist/lenis.css"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import LenisProvider from "@/components/lenis-provider"
+import MotionProvider from "@/components/motion-provider"
 import AnatomyProvider from "@/components/anatomy/anatomy-provider"
 import { SITE } from "@/lib/site"
 
@@ -77,11 +78,13 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
         <LenisProvider>
-          <AnatomyProvider>
-            <Navbar />
-            {children}
-            <Footer />
-          </AnatomyProvider>
+          <MotionProvider>
+            <AnatomyProvider>
+              <Navbar />
+              {children}
+              <Footer />
+            </AnatomyProvider>
+          </MotionProvider>
         </LenisProvider>
         <Analytics />
       </body>

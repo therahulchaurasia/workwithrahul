@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { AnimatePresence, MotionConfig, motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { Text } from "@/components/text";
 import Eyebrow from "@/components/eyebrow";
 import { EASE } from "@/lib/motion";
@@ -79,96 +79,93 @@ export default function AnatomyPanel({
   }, [open, setOpenSection]);
 
   return (
-    // reducedMotion="user" drops the transform half of the entrance (y-shift,
-    // stagger movement) for prefers-reduced-motion users; opacity fades stay.
-    <MotionConfig reducedMotion="user">
-      <AnimatePresence>
-        {open && (
-          <motion.aside
-            data-anatomy-ui
-            key="cards"
-            initial="hidden"
-            animate="shown"
-            exit="hidden"
-            variants={{ shown: { transition: { staggerChildren: 0.06 } } }}
-            // Positioning (including absolute vs fixed) is the caller's:
-            // mobile wants a fixed bottom sheet, md+ an absolute placement
-            // inside the section.
-            className={`z-45 flex w-full flex-col gap-3 md:w-80 ${className ?? ""}`}
-          >
-            {/* Translucent backing so the header survives sitting on a lit
+    // Reduced-motion handling comes from the global MotionProvider in layout.
+    <AnimatePresence>
+      {open && (
+        <motion.aside
+          data-anatomy-ui
+          key="cards"
+          initial="hidden"
+          animate="shown"
+          exit="hidden"
+          variants={{ shown: { transition: { staggerChildren: 0.06 } } }}
+          // Positioning (including absolute vs fixed) is the caller's:
+          // mobile wants a fixed bottom sheet, md+ an absolute placement
+          // inside the section.
+          className={`z-45 flex w-full flex-col gap-3 md:w-80 ${className ?? ""}`}
+        >
+          {/* Translucent backing so the header survives sitting on a lit
               (unfaded) part of the section. */}
-            <motion.header
-              variants={item}
-              className="mx-5 rounded-2xl bg-background/80 p-4 backdrop-blur-md md:mx-0"
-            >
-              <Eyebrow>Anatomy</Eyebrow>
-              <Text as="p" muted className="mt-0.5 text-sm!">
-                Design decisions behind this section. Hover or tap a note to see
-                what it explains.
-              </Text>
-            </motion.header>
-            <div className="flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-5 pb-2 [scrollbar-width:none] md:flex-col md:overflow-visible md:px-0 md:pb-0">
-              {notes.map((note) => {
-                const active = activeNote === note.id;
-                return (
-                  <motion.div
-                    key={note.id}
-                    variants={item}
-                    // Keyboard path: cards are tabbable and activate on focus,
-                    // mirroring hover — Tab walks the ring through the section
-                    // the same way the mouse does. Enter/Space kept so the
-                    // button role isn't a lie.
-                    role="button"
-                    tabIndex={0}
-                    aria-pressed={active}
-                    onFocus={() => setActiveNote(note.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setActiveNote(note.id);
-                      }
-                    }}
-                    onMouseEnter={() => setActiveNote(note.id)}
-                    onClick={() => setActiveNote(note.id)}
-                    className={`w-72 shrink-0 cursor-pointer snap-center rounded-2xl border bg-background p-5 shadow-[0_16px_40px_rgba(18,18,18,0.12)] transition-colors duration-200 outline-none md:w-full ${
-                      active ? "border-primary" : "border-line"
-                    }`}
-                  >
-                    <Text as="h4" variant="label" className="block">
-                      {note.title}
-                    </Text>
-                    {note.bodyMobile ? (
-                      // Both variants render; the breakpoint picks one. CSS
-                      // visibility keeps it SSR-safe and live across rotates.
-                      <>
-                        <Text
-                          as="p"
-                          muted
-                          className={`mt-1.5 text-sm! ${note.switchAt === "md" ? "md:hidden" : "lg:hidden"}`}
-                        >
-                          {note.bodyMobile}
-                        </Text>
-                        <Text
-                          as="p"
-                          muted
-                          className={`mt-1.5 hidden text-sm! ${note.switchAt === "md" ? "md:block" : "lg:block"}`}
-                        >
-                          {note.body}
-                        </Text>
-                      </>
-                    ) : (
-                      <Text as="p" muted className="mt-1.5 text-sm!">
+          <motion.header
+            variants={item}
+            className="mx-5 rounded-2xl bg-background/80 p-4 backdrop-blur-md md:mx-0"
+          >
+            <Eyebrow>Anatomy</Eyebrow>
+            <Text as="p" muted className="mt-0.5 text-sm!">
+              Design decisions behind this section. Hover or tap a note to see
+              what it explains.
+            </Text>
+          </motion.header>
+          <div className="flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-5 pb-2 [scrollbar-width:none] md:flex-col md:overflow-visible md:px-0 md:pb-0">
+            {notes.map((note) => {
+              const active = activeNote === note.id;
+              return (
+                <motion.div
+                  key={note.id}
+                  variants={item}
+                  // Keyboard path: cards are tabbable and activate on focus,
+                  // mirroring hover — Tab walks the ring through the section
+                  // the same way the mouse does. Enter/Space kept so the
+                  // button role isn't a lie.
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={active}
+                  onFocus={() => setActiveNote(note.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setActiveNote(note.id);
+                    }
+                  }}
+                  onMouseEnter={() => setActiveNote(note.id)}
+                  onClick={() => setActiveNote(note.id)}
+                  className={`w-72 shrink-0 cursor-pointer snap-center rounded-2xl border bg-background p-5 shadow-[0_16px_40px_rgba(18,18,18,0.12)] transition-colors duration-200 outline-none md:w-full ${
+                    active ? "border-primary" : "border-line"
+                  }`}
+                >
+                  <Text as="h4" variant="label" className="block">
+                    {note.title}
+                  </Text>
+                  {note.bodyMobile ? (
+                    // Both variants render; the breakpoint picks one. CSS
+                    // visibility keeps it SSR-safe and live across rotates.
+                    <>
+                      <Text
+                        as="p"
+                        muted
+                        className={`mt-1.5 text-sm! ${note.switchAt === "md" ? "md:hidden" : "lg:hidden"}`}
+                      >
+                        {note.bodyMobile}
+                      </Text>
+                      <Text
+                        as="p"
+                        muted
+                        className={`mt-1.5 hidden text-sm! ${note.switchAt === "md" ? "md:block" : "lg:block"}`}
+                      >
                         {note.body}
                       </Text>
-                    )}
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.aside>
-        )}
-      </AnimatePresence>
-    </MotionConfig>
+                    </>
+                  ) : (
+                    <Text as="p" muted className="mt-1.5 text-sm!">
+                      {note.body}
+                    </Text>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.aside>
+      )}
+    </AnimatePresence>
   );
 }
