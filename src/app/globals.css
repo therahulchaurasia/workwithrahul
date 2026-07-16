@@ -91,6 +91,17 @@
   opacity: 0.15 !important;
 }
 
+/* Chrome paints autofilled fields with its own UA background at a priority
+   background-color can't beat; the 1000px inset shadow paints over it while
+   keeping the radius. Firefox doesn't restyle autofill, so this is a no-op
+   there. Field bg is hardcoded to match FIELD in contact-form.tsx. */
+#contact input:-webkit-autofill,
+#contact textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #1e1e1e inset;
+  -webkit-text-fill-color: #fff;
+  caret-color: #fff;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
