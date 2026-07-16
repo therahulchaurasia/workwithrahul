@@ -4,6 +4,29 @@ import Container from "@/components/container";
 import SectionHeading from "@/components/section-heading";
 import Reveal from "@/components/reveal";
 import { Text } from "@/components/text";
+import AnatomyDot from "@/components/anatomy/anatomy-dot";
+import AnatomyPanel, {
+  type AnatomyNote,
+} from "@/components/anatomy/anatomy-panel";
+
+// Dummy anatomy cards — placeholder copy, Rahul writes the real notes.
+const ANATOMY: AnatomyNote[] = [
+  {
+    id: "services-grid",
+    title: "Placeholder: only three services",
+    body: "Dummy copy about keeping the offer narrow on purpose. Real note comes later.",
+  },
+  {
+    id: "services-card",
+    title: "Placeholder: the framed card",
+    body: "Dummy copy about the grey frame plus inner card treatment. Real note comes later.",
+  },
+  {
+    id: "services-heading",
+    title: "Placeholder: the section heading",
+    body: "Dummy copy about the heading pattern here. Real note comes later.",
+  },
+];
 
 const FRONT_SHADOW =
   "rgba(0, 0, 0, 0.08) 0px 0.602187px 0.602187px -0.916667px, rgba(0, 0, 0, 0.08) 0px 2.28853px 2.28853px -1.83333px, rgba(0, 0, 0, 0.07) 0px 10px 10px -2.75px";
@@ -28,19 +51,23 @@ const services: Service[] = [
 export default function Services() {
   return (
     <Container>
-      <Section id="services" className="py-15 md:py-20">
+      <Section id="services" className="relative py-15 md:py-20">
         <div className="flex flex-col gap-8 md:gap-12">
-          <Reveal>
+          <Reveal anatomyId="services-heading">
             <SectionHeading
               eyebrow="Services"
               title="Services"
               subtext="Three things, done properly. Narrow on purpose, so the quality never dips."
             />
           </Reveal>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div
+            data-anatomy-id="services-grid"
+            className="grid grid-cols-1 gap-4 md:grid-cols-3"
+          >
             {services.map(({ title, desc }, i) => (
               <Reveal
                 key={title}
+                anatomyId={i === 0 ? "services-card" : undefined}
                 delay={i * 0.08}
                 className="rounded-[20px] bg-[#e5e5e5] p-1.75"
               >
@@ -69,6 +96,16 @@ export default function Services() {
             ))}
           </div>
         </div>
+
+        <AnatomyDot
+          section="services"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+        <AnatomyPanel
+          section="services"
+          notes={ANATOMY}
+          className="fixed inset-x-0 bottom-0 pb-4 md:absolute md:inset-x-auto md:top-1/2 md:right-0 md:bottom-auto md:pb-0 md:-translate-y-1/2"
+        />
       </Section>
     </Container>
   );
