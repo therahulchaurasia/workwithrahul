@@ -28,6 +28,9 @@ import Image from "next/image"
  *   organic.png    1440 x 839   1.72    ratio "1440 / 839", nothing clipped
  *   asahi.jpeg     1600 x 1275  1.25    7/5 default, loses ~10% top+bottom
  *   withsam.jpeg   1600 x 1275  1.25    7/5 default, loses ~10% top+bottom
+ *   gpa.png        1400 x 1023  1.37    7/5 default, loses ~2% top+bottom
+ *   mmp.png        1400 x 1021  1.37    7/5 default, loses ~2% top+bottom
+ *   highrise.png   1400 x 956   1.46    7/5 default, loses ~4% left+right
  *
  * asahi and withsam were exported 5/4 for the work grid and reused here, so they
  * take a mild vertical crop. That is accepted for now, not an oversight.
@@ -62,12 +65,14 @@ const columnA: Project[] = [
     ratio: "1440 / 839",
   },
   {
-    name: "Random3",
-    background: "linear-gradient(160deg, #ffd9c2, #ff9d76)",
+    name: "gpa",
+    background: "#eaeaea",
+    image: "/showcase/gpa.png",
   },
   {
-    name: "Random4",
-    background: "linear-gradient(200deg, #d7d7db, #9a9aa2)",
+    name: "highrise",
+    background: "#eaeaea",
+    image: "/showcase/highrise.png",
   },
 ]
 
@@ -89,8 +94,9 @@ const columnB: Project[] = [
     ratio: "1440 / 839",
   },
   {
-    name: "Random1",
-    background: "linear-gradient(150deg, #4a5568, #1a1f2b)",
+    name: "mmp",
+    background: "#eaeaea",
+    image: "/showcase/mmp.png",
   },
 ]
 

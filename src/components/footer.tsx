@@ -1,7 +1,7 @@
-import Container from "./container";
-import Reveal from "@/components/reveal";
-import { Text } from "@/components/text";
-import { SITE } from "@/lib/site";
+import Container from "./container"
+import Reveal from "@/components/reveal"
+import { Text } from "@/components/text"
+import { SITE } from "@/lib/site"
 
 export default function Footer() {
   return (
@@ -22,19 +22,19 @@ export default function Footer() {
         </Reveal>
       </footer>
     </Container>
-  );
+  )
 }
 
-type FooterItem = { label: string; href?: string };
+type FooterItem = { label: string; href?: string }
 
 const groups: {
-  heading: string;
-  shortHeading?: string;
-  items: FooterItem[];
+  heading: string
+  shortHeading?: string
+  items: FooterItem[]
 }[] = [
   {
     heading: "Built by",
-    items: [{ label: "Rahul" }],
+    items: [{ label: "Yours Truly" }],
   },
   {
     heading: "Get in touch",
@@ -43,16 +43,16 @@ const groups: {
       { label: "Twitter", href: SITE.twitter },
     ],
   },
-];
+]
 
 function FooterGroup({
   heading,
   shortHeading,
   items,
 }: {
-  heading: string;
-  shortHeading?: string;
-  items: FooterItem[];
+  heading: string
+  shortHeading?: string
+  items: FooterItem[]
 }) {
   return (
     <div className="flex items-center justify-between py-2 lg:w-1/2 lg:flex-col lg:items-start lg:justify-between lg:gap-4 lg:py-0">
@@ -88,5 +88,5 @@ function FooterGroup({
         )}
       </div>
     </div>
-  );
+  )
 }
