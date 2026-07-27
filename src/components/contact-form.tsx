@@ -66,6 +66,21 @@ export default function ContactForm() {
       }`}
       style={{ boxShadow: FRONT_SHADOW }}
     >
+      {/* Honeypot: hidden from humans (off-screen, skipped by tab + a11y),
+          irresistible to dumb bots that autofill every input. Any value here
+          on the server means "bot" and the submission is silently dropped.
+          Named "company" because bots pattern-match common field names. */}
+      <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="company">Company</label>
+        <input
+          id="company"
+          name="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       <div className="flex flex-col gap-2">
         <label htmlFor="name" className={LABEL}>
           Your name<span className="text-primary">*</span>
