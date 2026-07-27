@@ -20,7 +20,7 @@ const ANATOMY: AnatomyNote[] = [
     title: "Every section has its own title",
     body: (
       <>
-        <p>Titles allows people to scan the page quickly.</p>
+        <p>Titles allow people to scan the page quickly.</p>
         <p>
           Each section opens the same way: a tiny eyebrow word up top, one bold
           line, then a sentence to set it up. That eyebrow is the little label,
@@ -62,7 +62,7 @@ export default function Work() {
               aria-hidden
               className="pointer-events-none fixed inset-0 z-40 bg-black/85 opacity-0 transition-opacity duration-300 group-has-[[data-work-card]:hover]/work:opacity-100"
             /> */}
-            {PROJECTS.map(({ slug, title, cover, tags }, i) => (
+            {PROJECTS.map(({ slug, title, gallery, tags }, i) => (
               <Reveal
                 key={title}
                 anatomyId={i === 0 ? "work-card" : undefined}
@@ -76,8 +76,10 @@ export default function Work() {
                     Slower in (depth), quicker but still soft out.
                     pointer-fine keeps touch taps from zooming a card they
                     can't un-hover. */}
+                {/* First gallery shot doubles as the card image — one list
+                    of images per project, no separate cover to keep in sync. */}
                 <Image
-                  src={cover}
+                  src={gallery[0].src}
                   alt={title}
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
