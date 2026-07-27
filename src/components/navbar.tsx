@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { usePathname } from "next/navigation"
 import { ArrowUpRight, Plus } from "lucide-react"
 import { AnimatePresence, motion } from "motion/react"
 import Container from "@/components/container"
@@ -21,6 +22,9 @@ export default function Navbar() {
   const [hidden, setHidden] = useState(false)
   const [open, setOpen] = useState(false)
   const { on: anatomyOn, toggle: toggleAnatomy } = useAnatomy()
+  // The dots and panels only exist in the home page sections, so off the
+  // home page the toggle would light up and do nothing.
+  const onHome = usePathname() === "/"
   const lastY = useRef(0)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -82,31 +86,34 @@ export default function Navbar() {
 
           <div className="flex items-center gap-2.5">
             {/* Anatomy toggle: turns the design-commentary layer on/off.
-                Primary-filled when active so the mode is legible at a glance. */}
-            <motion.div
-              initial={{ y: -80 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.55, ease: EASE }}
-            >
-              <button
-                type="button"
-                aria-pressed={anatomyOn}
-                aria-label="Toggle design anatomy"
-                onClick={toggleAnatomy}
-                className={`flex size-11 cursor-pointer items-center justify-center rounded-full transition-[background-color,translate] duration-200 ease-out hover:-translate-y-0.5 active:-translate-y-0.5 active:scale-[0.97] ${
-                  anatomyOn
-                    ? "bg-primary text-white"
-                    : "bg-foreground text-background"
-                }`}
+                Primary-filled when active so the mode is legible at a glance.
+                Home only — see onHome above. */}
+            {onHome && (
+              <motion.div
+                initial={{ y: -80 }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.55, ease: EASE }}
               >
-                {/* The site's own annotation mark (see Eyebrow) doubling as the
-                    toggle glyph — anatomy is annotations, so the button wears
-                    the annotation prefix. */}
-                <span className="text-[15px] leading-none font-bold tracking-[-0.06em]">
-                  {"//"}
-                </span>
-              </button>
-            </motion.div>
+                <button
+                  type="button"
+                  aria-pressed={anatomyOn}
+                  aria-label="Toggle design anatomy"
+                  onClick={toggleAnatomy}
+                  className={`flex size-11 cursor-pointer items-center justify-center rounded-full transition-[background-color,translate] duration-200 ease-out hover:-translate-y-0.5 active:-translate-y-0.5 active:scale-[0.97] ${
+                    anatomyOn
+                      ? "bg-primary text-white"
+                      : "bg-foreground text-background"
+                  }`}
+                >
+                  {/* The site's own annotation mark (see Eyebrow) doubling as
+                      the toggle glyph — anatomy is annotations, so the button
+                      wears the annotation prefix. */}
+                  <span className="text-[15px] leading-none font-bold tracking-[-0.06em]">
+                    {"//"}
+                  </span>
+                </button>
+              </motion.div>
+            )}
 
             <motion.div
               ref={menuRef}
