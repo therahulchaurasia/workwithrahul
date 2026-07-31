@@ -110,15 +110,19 @@ export default async function ProjectPage({ params }: Props) {
               cover on the home grid, so repeating it is a dead beat. Even
               sizing throughout — same two-column grid as Selected Work. */}
           <div className="mt-2 grid grid-cols-1 gap-2.5 md:mt-4 md:grid-cols-2">
-            {project.gallery.map(({ src, alt }) => (
+            {project.gallery.map(({ src, alt }, i) => (
               <div
                 key={src}
                 className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-[#eaeaea]"
               >
+                {/* The gallery starts ~536px down, so the first shot paints in
+                    the opening viewport and wins LCP. Only that one: preloading
+                    the rest would fight it for bandwidth. */}
                 <Image
                   src={src}
                   alt={alt}
                   fill
+                  priority={i === 0}
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover"
                 />
