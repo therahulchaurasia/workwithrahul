@@ -1,12 +1,13 @@
-import {
-  Waypoints,
-  Gauge,
-  LifeBuoy,
-  PencilRuler,
-  PhoneCall,
-  Target,
-  type LucideIcon,
-} from "lucide-react"
+"use client"
+
+import type { ComponentType } from "react"
+import { useBoop, type BoopIconProps } from "@/lib/use-boop"
+import Waypoints from "@/components/icons/waypoints"
+import PhoneCall from "@/components/icons/phone-call"
+import Target from "@/components/icons/target"
+import PencilRuler from "@/components/icons/pencil-ruler"
+import Gauge from "@/components/icons/gauge"
+import Sliders from "@/components/icons/sliders"
 import Section from "@/components/section"
 import Container from "@/components/container"
 import SectionHeading from "@/components/section-heading"
@@ -30,7 +31,13 @@ const ANATOMY: AnatomyNote[] = [
 const FRONT_SHADOW =
   "rgba(0, 0, 0, 0.08) 0px 0.602187px 0.602187px -0.916667px, rgba(0, 0, 0, 0.08) 0px 2.28853px 2.28853px -1.83333px, rgba(0, 0, 0, 0.07) 0px 10px 10px -2.75px"
 
-type Reason = { icon: LucideIcon; title: string; desc: string }
+// Every icon here is hand-animated and lives in components/icons. None are
+// lucide components any more, though all six are built on lucide's node data.
+type Reason = {
+  icon: ComponentType<BoopIconProps>
+  title: string
+  desc: string
+}
 
 const reasons: Reason[] = [
   {
@@ -59,11 +66,61 @@ const reasons: Reason[] = [
     desc: "Your website is responsive, mobile-first, and built to load quickly. Good work should not make people wait.",
   },
   {
-    icon: LifeBuoy,
+    icon: Sliders,
     title: "Support beyond launch",
     desc: "Going live is not the last conversation. I’m here for refinements as your business grows.",
   },
 ]
+
+// One card. Its own component only because the boop is per-card state and a
+// hook can't live inside the map.
+function ReasonCard({
+  reason: { icon: Icon, title, desc },
+  index,
+}: {
+  reason: Reason
+  index: number
+}) {
+  const { booped, onPointerEnter, onPointerLeave } = useBoop()
+
+  return (
+    <div
+      // The handlers are the card's only concession to the pointer. It stays
+      // inert otherwise: no lift, no cursor, nothing that would read as "this
+      // is clickable", because it isn't.
+      onPointerEnter={onPointerEnter}
+      onPointerLeave={onPointerLeave}
+      className="relative flex h-full min-h-[220px] flex-col justify-between rounded-2xl bg-background p-6 outline-1 outline-[#e2e2e2] [outline-offset:-3px]"
+      style={{ boxShadow: FRONT_SHADOW }}
+    >
+      <div className="flex items-start justify-between">
+        <Icon
+          booped={booped}
+          className="size-6 text-foreground"
+          strokeWidth={1.75}
+        />
+        <span className="flex items-center gap-1">
+          {Array.from({ length: 6 }).map((_, d) => (
+            <span
+              key={d}
+              className={`size-2.5 rounded-full ${
+                d <= index ? "bg-primary" : "bg-black/12"
+              }`}
+            />
+          ))}
+        </span>
+      </div>
+      <div className="flex flex-col gap-2">
+        <Text as="h3" variant="subtitle-sm">
+          {title}
+        </Text>
+        <Text muted className="max-w-[32ch] text-sm">
+          {desc}
+        </Text>
+      </div>
+    </div>
+  )
+}
 
 export default function WhyMe() {
   return (
@@ -78,41 +135,13 @@ export default function WhyMe() {
             />
           </Reveal>
           <div className="grid grid-cols-1 gap-1.75 rounded-[20px] bg-[#e5e5e5] p-1.75 md:grid-cols-3">
-            {reasons.map(({ icon: Icon, title, desc }, i) => (
+            {reasons.map((reason, i) => (
               <Reveal
-                key={title}
+                key={reason.title}
                 anatomyId={i === 0 ? "why-me-card" : undefined}
                 delay={(i % 3) * 0.08}
               >
-                <div
-                  className="relative flex h-full min-h-[220px] flex-col justify-between rounded-2xl bg-background p-6 outline-1 outline-[#e2e2e2] [outline-offset:-3px]"
-                  style={{ boxShadow: FRONT_SHADOW }}
-                >
-                  <div className="flex items-start justify-between">
-                    <Icon
-                      className="size-6 text-foreground"
-                      strokeWidth={1.75}
-                    />
-                    <span className="flex items-center gap-1">
-                      {Array.from({ length: 6 }).map((_, d) => (
-                        <span
-                          key={d}
-                          className={`size-2.5 rounded-full ${
-                            d <= i ? "bg-primary" : "bg-black/12"
-                          }`}
-                        />
-                      ))}
-                    </span>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Text as="h3" variant="subtitle-sm">
-                      {title}
-                    </Text>
-                    <Text muted className="max-w-[32ch] text-sm">
-                      {desc}
-                    </Text>
-                  </div>
-                </div>
+                <ReasonCard reason={reason} index={i} />
               </Reveal>
             ))}
           </div>
