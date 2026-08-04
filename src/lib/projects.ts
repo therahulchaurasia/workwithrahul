@@ -42,7 +42,7 @@ export const PROJECTS: Project[] = [
       { label: "Client", value: "Pandya Infra" },
       { label: "Role", value: "Design + Development" },
       { label: "Stack", value: "Framer" },
-      { label: "Timeline", value: "1 week" },
+      { label: "Timeline", value: "2 weeks" },
     ],
     overview:
       "Placeholder overview. What the client came with, what the site had to do, and how the build answered it. Three or four sentences, no more, because the shots below carry the rest.",
